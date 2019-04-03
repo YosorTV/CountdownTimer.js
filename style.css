@@ -1,0 +1,75 @@
+@import url('https://fonts.googleapis.com/css?family=Mrs+Sheppards');
+
+body {
+    background:linear-gradient(to left,#a83e00, #b94b02, rgb(219, 119, 4), rgb(233, 108, 7));
+    margin: 0;
+    padding: 0;
+}
+
+@keyframes slideInRight {
+    0%{
+        transform: translate(-100%, 0);
+    }
+    75%{
+        transform: translate(0,0);
+    }
+    85%{
+        transform: translate(30px,0);
+    }
+    100%{
+        transform: translate(0,0);
+    }
+}
+
+
+
+
+.container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 125px;
+    padding: 10px;
+}
+
+.line{
+    /* animation: 1s slideInRight ease-in-out; */
+    margin-top: 10px;
+    height: 60px;
+    width: 100%;
+    background: rgb(130, 194, 77);
+}
+
+.btn{
+    border-radius: 6px;
+    border:1px solid #fff;
+    background: #fff;
+    box-shadow: 3px 3px 2px 1px rgba(67, 67, 182, 0.2);
+    outline: none;
+    height: 30px;
+    font-family: 'Mrs Sheppards', cursive;
+    font-size:20px;
+    width: 85px;
+}
+
+.btn:active{
+    transition: 0.1s linear;
+    background: rgb(50, 136, 206);
+    color:#fff;
+    border:none;
+}
+
+.output{
+    border:1px solid #fff;
+    height: 30px;
+    justify-content: center;
+    margin-bottom: 10px;
+    width: 85px;
+    border-radius: 6px;
+    font-family: 'Mrs Sheppards', cursive;
+    font-size:18px;
+    align-items: center;
+    color:#fff;
+    display: flex;
+}
+
