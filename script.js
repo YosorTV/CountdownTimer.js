@@ -15,10 +15,7 @@ const time = 10;
 class Timer {
     constructor(obj) {
         this.time = obj.time;
-        this.onStart = obj.onStart || null;
-        this.onEnd = obj.onEnd || null;
-        this.onTick = obj.onTick || null;
-        this.intervalID = null;
+        this.onTick = obj.onTick;
 
         this.start = () => {
             this.interval = setInterval(this.update, 1000);
