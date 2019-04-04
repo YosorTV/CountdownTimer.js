@@ -4,59 +4,61 @@
 // 3. Должен иметь в конструторе параметр для автоматического запуска(true/false).
 // 4. Длина полоски уменьшается с движением таймера.
 
-const button = document.querySelector('.btn');
-let toogleText = () => {
-    button.innerHTML == "Start" ? button.innerHTML = "Stop" : button.innerHTML = "Start";
-}
-button.addEventListener("click", toogleText);  
- 
-const time = 10;
+const container = document.querySelector('.container');
 
 class Timer {
-    constructor(obj) {
-        this.time = obj.time;
-        this.onTick = obj.onTick;
-
-        this.start = () => {
-            this.interval = setInterval(this.update, 1000);
-        };
-
-        this.stop = () =>{
-          clearInterval(this.interval);  
-        };
-
-        this.update = () => {
-            this.time > 0 ? this.time -= 1 : this.stop();
-            this.onTick ? this.onTick() : void 0;
-            return this.get();
-        };
-
-        this.get = () => {
-            return this.time;
-        };
+    constructor(minutes, seconds) {
+        this.minutes = minutes;
+        this.seconds = seconds;
+        this.render();
+    }
+//метод класса запускает работу таймера при нажатии на кнопку
+    onStart() {
 
     }
+//метод класса завершает работу таймера при нажатии на кнопку
+    onStop() {
+
+    }
+//метод класса обновляет счётчик таймера 
+    update() {
+
+    }
+//метод класса отрисовывает output
+    createOutput() {
+        this.ouput = document.createElement("div");
+        this.ouput.classList.add("ouput");
+        return this.ouput;
+    }
+
+//метод класса отрисовывает progress bar
+    createLine() {
+        this.line = document.createElement("div");
+        this.line.classList.add("line");
+        return this.line;
+    }
+
+//метод класса отрисовывает button
+    createButton(){
+        this.button = document.createElement("button");
+        this.button.classList.add("btn");
+        this.button.innerHTML = "Start"; 
+        return this.button;
+    }
+//метод отрисовывает элементы на страницу
+    render() {
+        container.append(this.createOutput());
+        container.append(this.createButton());
+        container.append(this.createLine());
+    }   
 }
 
-let outputCounter = () => {
-    return document.querySelector('.output');
-};
+//функционал кнопки
+// const button = document.querySelector('.btn');
+//  toogleText = () => {
+//     button.innerHTML == "Start" ? button.innerHTML = "Stop" : button.innerHTML = "Start";
+// }
+// button.addEventListener("click", toogleText);
 
-let progressBar = () => {
-    return document.querySelector('.line');
-}
-
-let tickCounter = () => {
-    outputCounter('.output').innerHTML = timer1.get();
-    progressBar('.line').style.width = timer1.get()/time * 100 + '%';
-};
-
-const timer1 = new Timer({
-    time: time,
-    onTick: tickCounter
-});
-
-timer1.start();
-requestAnimationFrame(tickCounter);
-
+new Timer();
 
