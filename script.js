@@ -26,9 +26,9 @@ class Timer {
     }
 //метод класса отрисовывает output
     createOutput() {
-        this.ouput = document.createElement("div");
-        this.ouput.classList.add("ouput");
-        return this.ouput;
+        this.output = document.createElement("div");
+        this.output.classList.add("output");
+        return this.output;
     }
 
 //метод класса отрисовывает progress bar
