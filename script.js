@@ -33,11 +33,19 @@ class Timer {
         this.button.addEventListener('click',this.toogleText.bind(this));
         return this.button;
     }
+
     //метод класса запускает работу таймера при нажатии на кнопку
     onStart() {
-        this.interval = setInterval(this.update, 1000);
-    }
-
+        this.interval = setInterval(() => {
+            const currentWidth = this.line.offsetWidth; 
+            const percent = (this.width / 50);
+            if(currentWidth - percent < 0){
+                this.onStop();
+                return;
+        }
+        this.line.style.width = `${currentWidth - percent}px`;
+    }, 100);
+}
     //метод класса завершает работу таймера при нажатии на кнопку
     onStop() {
         clearInterval(this.interval);
@@ -65,7 +73,8 @@ class Timer {
         container.append(this.createButton());
         container.append(this.createLine());
         this.width = this.line.offsetWidth;
+        this.onStart();
     }
 }
 
-new Timer(5000);
+new Timer();
