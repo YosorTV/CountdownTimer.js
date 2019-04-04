@@ -7,23 +7,32 @@
 const container = document.querySelector('.container');
 
 class Timer {
-    constructor(minutes, seconds) {
-        this.minutes = minutes;
-        this.seconds = seconds;
+    constructor(millieseconds) {
+        this.millieseconds = millieseconds;
         this.render();
     }
+    
 //метод класса запускает работу таймера при нажатии на кнопку
     onStart() {
-
+        this.interval = setInterval(this.update, 1000);
     }
+
 //метод класса завершает работу таймера при нажатии на кнопку
     onStop() {
-
+        clearInterval(this.interval); 
     }
+
 //метод класса обновляет счётчик таймера 
     update() {
-
+        this.millieseconds <= 0 ? this.millieseconds -= 10 : this.onStop();
+        return currentTime();
     }
+    
+//метод класса возвращает новое время
+    currentTime(){
+        return this.millieseconds;
+    }
+
 //метод класса отрисовывает output
     createOutput() {
         this.output = document.createElement("div");
@@ -53,12 +62,6 @@ class Timer {
     }   
 }
 
-//функционал кнопки
-// const button = document.querySelector('.btn');
-//  toogleText = () => {
-//     button.innerHTML == "Start" ? button.innerHTML = "Stop" : button.innerHTML = "Start";
-// }
-// button.addEventListener("click", toogleText);
+new Timer(5000);
 
-new Timer();
 
