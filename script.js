@@ -46,7 +46,7 @@ class Timer {
     }
 
     //метод класса запускает работу таймера при нажатии на кнопку
-    OnStart() {
+    onStart() {
         this.onStatus();
     }
 
@@ -71,14 +71,22 @@ class Timer {
         this.button.innerHTML == "Start" ? this.button.innerHTML = "Stop" : this.button.innerHTML = "Start";
     }
 
+    outputCounter(){
+        return document.querySelector('.output');
+    }
+
     //метод отрисовывает элементы на страницу
     render() {
         container.append(this.createOutput());
         container.append(this.createButton());
         container.append(this.createLine());
-        this.button.addEventListener("click", this.OnStart.bind(this));
+        this.button.addEventListener("click", this.onStart.bind(this));
+        this.button.addEventListener("click", this.onStatus.bind(this));
+        this.button.addEventListener("click", this.onStop.bind(this));
         this.button.addEventListener('click', this.toogleText.bind(this));
         this.width = this.line.offsetWidth;
+        this.outputCounter('.output').innerHTML = this.millieseconds;
     }
 }
-new Timer();
+new Timer(500);
+
