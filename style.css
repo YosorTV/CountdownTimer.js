@@ -34,6 +34,7 @@ body {
     height: 60px;
     width: 100%;
     background: rgb(130, 194, 77);
+    transition: 0.2s linear;
 }
 
 .btn{
@@ -60,6 +61,7 @@ body {
     height: 30px;
     justify-content: center;
     margin-bottom: 10px;
+    margin-top: 10px;
     width: 85px;
     border-radius: 6px;
     font-family: 'Mrs Sheppards', cursive;

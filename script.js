@@ -30,22 +30,26 @@ class Timer {
         this.button = document.createElement("button");
         this.button.classList.add("btn");
         this.button.innerHTML = "Start";
-        this.button.addEventListener('click',this.toogleText.bind(this));
         return this.button;
     }
 
-    //метод класса запускает работу таймера при нажатии на кнопку
-    onStart() {
+    //метод класса изменяет StatusBar
+    onStatus() {
         this.interval = setInterval(() => {
-            const currentWidth = this.line.offsetWidth; 
+            const currentWidth = this.line.offsetWidth;
             const percent = (this.width / 50);
-            if(currentWidth - percent < 0){
-                this.onStop();
-                return;
-        }
-        this.line.style.width = `${currentWidth - percent}px`;
-    }, 100);
-}
+            if (currentWidth - percent < 0) {
+                return this.onStop();
+            }
+            this.line.style.width = `${currentWidth - percent}px`;
+        }, 100);
+    }
+
+    //метод класса запускает работу таймера при нажатии на кнопку
+    OnStart() {
+        this.onStatus();
+    }
+
     //метод класса завершает работу таймера при нажатии на кнопку
     onStop() {
         clearInterval(this.interval);
@@ -63,7 +67,7 @@ class Timer {
     }
 
     //метод класса меняет действие при клике на кнопку
-    toogleText(){
+    toogleText() {
         this.button.innerHTML == "Start" ? this.button.innerHTML = "Stop" : this.button.innerHTML = "Start";
     }
 
@@ -72,9 +76,9 @@ class Timer {
         container.append(this.createOutput());
         container.append(this.createButton());
         container.append(this.createLine());
+        this.button.addEventListener("click", this.OnStart.bind(this));
+        this.button.addEventListener('click', this.toogleText.bind(this));
         this.width = this.line.offsetWidth;
-        this.onStart();
     }
 }
-
 new Timer();
