@@ -9,6 +9,8 @@ const container = document.querySelector('.container');
 class Timer {
     constructor(millieseconds) {
         this.millieseconds = millieseconds;
+        this._inProccess = false;
+        this.buttonHandler = this.buttonHandler.bind(this);
         this.render();
     }
     //метод класса отрисовывает output
@@ -30,6 +32,7 @@ class Timer {
         this.button = document.createElement("button");
         this.button.classList.add("btn");
         this.button.innerHTML = "Start";
+        this.button.onclick = this.buttonHandler;
         return this.button;
     }
 
@@ -47,29 +50,38 @@ class Timer {
 
     //метод класса запускает работу таймера при нажатии на кнопку
     onStart() {
+    	this._inProccess = true;
         this.onStatus();
     }
 
     //метод класса завершает работу таймера при нажатии на кнопку
     onStop() {
+    		this._inProccess = false;
+  
         clearInterval(this.interval);
+    }
+    
+      //метод класса меняет действие при клике на кнопку
+    buttonHandler() {
+        if (this._inProccess) {
+            this.button.innerHTML = "Start"
+            this.onStop();
+        } else {
+            this.button.innerHTML = "Stop"
+            this.onStart();
+        }
     }
 
     //метод класса обновляет счётчик таймера 
-    update() {
-        this.millieseconds <= 0 ? this.millieseconds -= 10 : this.onStop();
-        return currentTime();
-    }
+    // update() {
+    //     this.millieseconds <= 0 ? this.millieseconds -= 10 : this.onStop();
+    //     return currentTime();
+    // }
 
-    //метод класса возвращает новое время
-    currentTime() {
-        return this.millieseconds;
-    }
-
-    //метод класса меняет действие при клике на кнопку
-    toogleText() {
-        this.button.innerHTML == "Start" ? this.button.innerHTML = "Stop" : this.button.innerHTML = "Start";
-    }
+    // //метод класса возвращает новое время
+    // currentTime() {
+    //     return this.millieseconds;
+    // }
 
     outputCounter(){
         return document.querySelector('.output');
@@ -80,10 +92,6 @@ class Timer {
         container.append(this.createOutput());
         container.append(this.createButton());
         container.append(this.createLine());
-        this.button.addEventListener("click", this.onStart.bind(this));
-        this.button.addEventListener("click", this.onStatus.bind(this));
-        this.button.addEventListener("click", this.onStop.bind(this));
-        this.button.addEventListener('click', this.toogleText.bind(this));
         this.width = this.line.offsetWidth;
         this.outputCounter('.output').innerHTML = this.millieseconds;
     }
