@@ -11,7 +11,7 @@ class Timer {
         this.millieseconds = millieseconds;
         this._inProccess = false;
         this.buttonHandler = this.buttonHandler.bind(this);
-        this.render();
+        this.mount();
     }
     //метод класса отрисовывает output
     createOutput() {
@@ -37,58 +37,58 @@ class Timer {
     }
 
     //метод класса изменяет StatusBar
-    onStatus() {
+    update() {
         this.interval = setInterval(() => {
             const currentWidth = this.line.offsetWidth;
             const percent = (this.width / 50);
             if (currentWidth - percent < 0) {
-                return this.onStop();
+                return this.pauseTimer();
             }
             this.line.style.width = `${currentWidth - percent}px`;
-        }, 100);
+            this.output.innerText = (currentWidth - percent).toFixed();
+        }, 10);
     }
 
     //метод класса запускает работу таймера при нажатии на кнопку
-    onStart() {
-    	this._inProccess = true;
-        this.onStatus();
+    startTimer() {
+        this._inProccess = true;
+        this.update();
     }
 
     //метод класса завершает работу таймера при нажатии на кнопку
-    onStop() {
-    		this._inProccess = false;
-  
+    pauseTimer() {
+        this._inProccess = false;
         clearInterval(this.interval);
     }
-    
-      //метод класса меняет действие при клике на кнопку
+
+    //метод класса меняет текст на кнопке и запускает
     buttonHandler() {
         if (this._inProccess) {
             this.button.innerHTML = "Start"
-            this.onStop();
+            this.pauseTimer();
         } else {
             this.button.innerHTML = "Stop"
-            this.onStart();
+            this.startTimer();
         }
     }
 
     //метод класса обновляет счётчик таймера 
-    // update() {
-    //     this.millieseconds <= 0 ? this.millieseconds -= 10 : this.onStop();
-    //     return currentTime();
-    // }
+    tick() {
+        this.millieseconds <= 0 ? this.millieseconds -= 1 : this.pauseTimer();
+        return this.currentTime();
+    }
 
-    // //метод класса возвращает новое время
-    // currentTime() {
-    //     return this.millieseconds;
-    // }
+    //метод класса возвращает новое время
+    currentTime() {
+        return this.millieseconds;
+    }
 
-    outputCounter(){
+    outputCounter() {
         return document.querySelector('.output');
     }
 
     //метод отрисовывает элементы на страницу
-    render() {
+    mount() {
         container.append(this.createOutput());
         container.append(this.createButton());
         container.append(this.createLine());
@@ -96,5 +96,5 @@ class Timer {
         this.outputCounter('.output').innerHTML = this.millieseconds;
     }
 }
-new Timer(500);
 
+new Timer(2);
