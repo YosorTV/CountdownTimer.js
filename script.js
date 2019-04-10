@@ -7,11 +7,17 @@
 const container = document.querySelector('.container');
 
 class Timer {
-    constructor(millieseconds) {
-        this.millieseconds = millieseconds;
+    constructor(duration, isAuto = false) {
+        this.duration = duration * 60;
+        this.currentTime = duration * 60;
+        this.isAuto = isAuto;
         this._inProccess = false;
         this.buttonHandler = this.buttonHandler.bind(this);
-        this.mount();
+        this.render();
+        if (isAuto){
+            this.button.innerText = "Stop";
+            this.startTimer();
+        }
     }
     //метод класса отрисовывает output
     createOutput() {
@@ -31,22 +37,34 @@ class Timer {
     createButton() {
         this.button = document.createElement("button");
         this.button.classList.add("btn");
-        this.button.innerHTML = "Start";
+        this.button.innerText = "Start";
         this.button.onclick = this.buttonHandler;
         return this.button;
     }
 
-    //метод класса изменяет StatusBar
+    //метод отрисовывает элементы на страницу
+    render() {
+        container.append(this.createOutput());
+        container.append(this.createButton());
+        container.append(this.createLine());
+    }
+
+    //метод класса запускает таймер
     update() {
-        this.interval = setInterval(() => {
-            const currentWidth = this.line.offsetWidth;
-            const percent = (this.width / 50);
-            if (currentWidth - percent < 0) {
-                return this.pauseTimer();
+        this.timer = setInterval(() => {
+            this.currentTime--;
+            if (this.status) {
+                this.status(this);
             }
-            this.line.style.width = `${currentWidth - percent}px`;
-            this.output.innerText = (currentWidth - percent).toFixed();
-        }, 10);
+            if (this.currentTime <= 0) this.pauseTimer();
+        }, 1000);
+    }
+
+    //метод класса привязывает progress bar к таймеру
+    status = (t) => {
+        this.output.innerText = t.currentTime;
+        const perc = (1 - (t.duration - t.currentTime) / t.duration) * 100;
+        this.line.style.width = perc + '%';
     }
 
     //метод класса запускает работу таймера при нажатии на кнопку
@@ -58,43 +76,20 @@ class Timer {
     //метод класса завершает работу таймера при нажатии на кнопку
     pauseTimer() {
         this._inProccess = false;
-        clearInterval(this.interval);
+        clearInterval(this.timer);
+        this.timer = null;
     }
 
-    //метод класса меняет текст на кнопке и запускает
+    //метод класса меняет текст на кнопке и запускает таймер
     buttonHandler() {
         if (this._inProccess) {
-            this.button.innerHTML = "Start"
+            this.button.innerText = "Start";
             this.pauseTimer();
         } else {
-            this.button.innerHTML = "Stop"
+            this.button.innerText = "Stop";
             this.startTimer();
         }
     }
-
-    //метод класса обновляет счётчик таймера 
-    tick() {
-        this.millieseconds <= 0 ? this.millieseconds -= 1 : this.pauseTimer();
-        return this.currentTime();
-    }
-
-    //метод класса возвращает новое время
-    currentTime() {
-        return this.millieseconds;
-    }
-
-    outputCounter() {
-        return document.querySelector('.output');
-    }
-
-    //метод отрисовывает элементы на страницу
-    mount() {
-        container.append(this.createOutput());
-        container.append(this.createButton());
-        container.append(this.createLine());
-        this.width = this.line.offsetWidth;
-        this.outputCounter('.output').innerHTML = this.millieseconds;
-    }
 }
-
-new Timer(2);
+new Timer(1);
+new Timer(3,true);
